@@ -1,10 +1,16 @@
 import { PrismaClient } from "@prisma/client"
 import fastify from "fastify"
+import fastifyCors from 'fastify-cors';
 import { z } from 'zod'
 
 const app = fastify()
 
 const prisma = new PrismaClient
+
+app.register(fastifyCors, {
+    origin: "*", 
+    methods: "GET,POST,PUT,DELETE",
+});
 
 app.get('/produtos', async (request, reply) => {
     const produtos = await prisma.produto.findMany()
